@@ -241,7 +241,8 @@
 
   function esc(s){
     return String(s === null || s === undefined ? "" : s)
-      .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+      .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
   }
 
   /* ---------- domain handling ---------- */
@@ -331,6 +332,34 @@
   }
   function hasTotp(item){
     return !!(item.login && item.login.totp && String(item.login.totp).trim());
+  }
+
+  // The set of saved-field names on a copy. Two copies with different signatures hold
+  // different content even when every scored field matches, so the group needs a human.
+  function fieldSignatures(rows){
+    var seen = Object.create(null);
+    rows.forEach(function(r){
+      seen[r.fields.slice().sort().join("\u0000")] = true;
+    });
+    return Object.keys(seen);
+  }
+
+  // Hosts every copy in the group has in common. An empty result means the group was put
+  // together by the registrable-domain fallback alone: same parent domain, no shared site.
+  function sharedHosts(rows){
+    var shared = null;
+    rows.forEach(function(r){
+      var here = Object.create(null);
+      r.uris.forEach(function(u){ var h = hostOf(u); if(h) here[h] = true; });
+      if(shared === null){
+        shared = here;
+      } else {
+        var next = Object.create(null);
+        Object.keys(here).forEach(function(h){ if(shared[h]) next[h] = true; });
+        shared = next;
+      }
+    });
+    return Object.keys(shared || {});
   }
 
   function build(){
@@ -426,6 +455,10 @@
           totp: hasTotp(it3),
           totpVal: (it3.login && it3.login.totp) ? String(it3.login.totp).trim() : "",
           notes: !!(it3.notes && String(it3.notes).trim()),
+          fields: ((it3.login.fields || []).filter(function(f){ return f && String(f.value || "").trim(); })
+                    .map(function(f){ return String(f.name || ""); })),
+          attachments: (it3.attachments || []).length,
+          history: (it3.passwordHistory || []).length,
           fav: !!it3.favorite,
           reprompt: it3.reprompt === 1,
           folder: (it3.folderId && folders[it3.folderId]) || "",
@@ -435,10 +468,15 @@
         };
       });
 
+      // Ranked by what a copy holds that its twin cannot replace. Custom fields can carry
+      // security answers and recovery codes, so they outrank presentation metadata; an
+      // attachment is weightier still than either. Recency is the tie-break below, not a
+      // score of its own.
       rows.forEach(function(r2){
-        r2.score = (r2.passkeys > 0 ? 100000 : 0) + (r2.totp ? 10000 : 0) + r2.uris.length * 100 +
-                   (r2.notes ? 50 : 0) + (r2.fav ? 20 : 0) + (r2.folder ? 10 : 0) +
-                   (r2.revision ? Math.min(9, Date.parse(r2.revision) > 0 ? 1 : 0) : 0);
+        r2.score = (r2.passkeys > 0 ? 100000 : 0) + (r2.totp ? 10000 : 0) +
+                   (r2.fields.length > 0 ? 1000 : 0) + (r2.attachments > 0 ? 500 : 0) +
+                   (r2.history > 0 ? 100 : 0) + r2.uris.length * 100 +
+                   (r2.notes ? 50 : 0) + (r2.fav ? 20 : 0) + (r2.folder ? 10 : 0);
       });
       rows.sort(function(a,b){
         if(b.score !== a.score) return b.score - a.score;
@@ -458,6 +496,10 @@
         review = "More than one copy holds a passkey. Check them in Bitwarden before deleting either; passkeys cannot be recovered from this export.";
       } else if(Object.keys(totpVals).length > 1){
         review = "The copies carry different authenticator secrets. Confirm which one still works before deleting the other.";
+      } else if(fieldSignatures(rows).length > 1){
+        review = "The copies hold different saved fields. Move anything you need — security answers, recovery codes — onto one entry in Bitwarden first, then re-export. Nothing here is preselected.";
+      } else if(!byName && sharedHosts(rows).length === 0){
+        review = "These copies share a parent domain but save no website in common. Check they are the same account before deleting either — nothing here is preselected.";
       } else if(rows.some(function(r3){ return r3.org; }) && rows.some(function(r3){ return !r3.org; })){
         review = "This group mixes a personal entry with one owned by an organization. Deleting the shared copy affects everyone it is shared with.";
       }
@@ -469,8 +511,7 @@
         users: Object.keys(users),
         pwLen: rows[0].pwLen,
         rows: rows,
-        review: review,
-        anySecurity: withPk.length > 0 || withTotp.length > 0
+        review: review
       });
     });
 
@@ -586,7 +627,7 @@
   function groupHtml(g){
     var h = "<section class=\"group" + (g.review ? " review" : "") + "\">";
     h += "<div class=\"ghead\">";
-    h += "<span class=\"gdomain\">" + esc(g.byName ? g.label : g.label) + "</span>";
+    h += "<span class=\"gdomain\">" + esc(g.label) + "</span>";
     h += "<span class=\"gmeta\">" + g.rows.length + " copies &middot; <span class=\"user\">" +
          esc(g.users.join(", ") || "(no username)") + "</span>" +
          (state.stats.ignorePw ? "" : " &middot; same password, " + g.pwLen + " characters") +
@@ -629,6 +670,9 @@
       if(r.passkeys > 0) h += "<span class=\"tag sec\">" + r.passkeys + " passkey" + (r.passkeys > 1 ? "s" : "") + "</span>";
       if(r.totp) h += "<span class=\"tag sec\">authenticator code</span>";
       if(r.uris.length) h += "<span class=\"tag\">" + r.uris.length + " site" + (r.uris.length > 1 ? "s" : "") + "</span>";
+      if(r.fields.length) h += "<span class=\"tag sec\">" + r.fields.length + " saved field" + (r.fields.length === 1 ? "" : "s") + "</span>";
+      if(r.attachments) h += "<span class=\"tag sec\">" + r.attachments + " attachment" + (r.attachments === 1 ? "" : "s") + "</span>";
+      if(r.history) h += "<span class=\"tag\">" + r.history + " old password" + (r.history === 1 ? "" : "s") + "</span>";
       if(r.notes) h += "<span class=\"tag\">note</span>";
       if(r.folder) h += "<span class=\"tag\">" + esc(r.folder) + "</span>";
       if(r.fav) h += "<span class=\"tag\">favorite</span>";
@@ -798,7 +842,10 @@
     rows.forEach(function(r){
       lines.push([r.group,r.name,r.username,r.folder,r.id,r.changed,r.keptInstead,r.keptId].map(function(v){
         v = String(v === undefined || v === null ? "" : v);
-        return /[",\n]/.test(v) ? '"' + v.replace(/"/g,'""') + '"' : v;
+        // Excel and Sheets treat a leading =, +, - or @ as a formula. An apostrophe keeps
+        // the cell literal; it must be applied before the quoting decision below.
+        if(/^[=+\-@\t\r]/.test(v)) v = "'" + v;
+        return /[",\n\t\r]/.test(v) ? '"' + v.replace(/"/g,'""') + '"' : v;
       }).join(","));
     });
     return lines.join("\n");

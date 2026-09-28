@@ -1,0 +1,264 @@
+{
+  "encrypted": false,
+  "folders": [
+    {
+      "id": "f1",
+      "name": "Work"
+    }
+  ],
+  "items": [
+    {
+      "id": "aaaaaaaa-0000-4000-8000-000000000001",
+      "type": 1,
+      "name": "Amazon (old)",
+      "login": {
+        "username": "Erik@Example.com",
+        "password": "ReUsed-Password-1",
+        "uris": [
+          {
+            "uri": "https://www.amazon.com"
+          }
+        ],
+        "totp": null
+      },
+      "revisionDate": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "aaaaaaaa-0000-4000-8000-000000000002",
+      "type": 1,
+      "name": "Amazon",
+      "login": {
+        "username": "erik@example.com ",
+        "password": "ReUsed-Password-1",
+        "uris": [
+          {
+            "uri": "https://smile.amazon.com"
+          },
+          {
+            "uri": "https://amazon.com"
+          }
+        ],
+        "totp": null
+      },
+      "revisionDate": "2026-05-05T00:00:00.000Z",
+      "notes": "backup codes",
+      "folderId": "f1",
+      "favorite": true
+    },
+    {
+      "id": "aaaaaaaa-0000-4000-8000-000000000003",
+      "type": 1,
+      "name": "Amazon",
+      "login": {
+        "username": "Erik@Example.COM",
+        "password": "ReUsed-Password-1",
+        "uris": [
+          {
+            "uri": "amazon.com"
+          }
+        ],
+        "totp": "JBSWY3DPEHPK3PXP"
+      },
+      "revisionDate": "2023-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "bbbbbbbb-0000-4000-8000-000000000001",
+      "type": 1,
+      "name": "GitHub",
+      "login": {
+        "username": "nevs55",
+        "password": "ReUsed-Password-2",
+        "uris": [
+          {
+            "uri": "https://github.com"
+          }
+        ],
+        "totp": null
+      },
+      "revisionDate": "2026-06-01T00:00:00.000Z"
+    },
+    {
+      "id": "bbbbbbbb-0000-4000-8000-000000000002",
+      "type": 1,
+      "name": "GitHub (passkey copy)",
+      "login": {
+        "username": "nevs55",
+        "password": "ReUsed-Password-2",
+        "uris": [
+          {
+            "uri": "https://github.com/login"
+          }
+        ],
+        "totp": null,
+        "fido2Credentials": [
+          {
+            "credentialId": "abc",
+            "rpId": "github.com"
+          }
+        ]
+      },
+      "revisionDate": "2025-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "cccccccc-0000-4000-8000-000000000001",
+      "type": 1,
+      "name": "Bank",
+      "login": {
+        "username": "erik",
+        "password": "ReUsed-Password-2",
+        "uris": [
+          {
+            "uri": "https://bank.example.com"
+          }
+        ],
+        "totp": null,
+        "fido2Credentials": [
+          {
+            "credentialId": "x",
+            "rpId": "bank.example.com"
+          }
+        ]
+      },
+      "revisionDate": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "cccccccc-0000-4000-8000-000000000002",
+      "type": 1,
+      "name": "Bank",
+      "login": {
+        "username": "Erik",
+        "password": "ReUsed-Password-2",
+        "uris": [
+          {
+            "uri": "https://bank.example.com"
+          }
+        ],
+        "totp": "GEZDGNBVGY3TQOJQ"
+      },
+      "revisionDate": "2026-02-01T00:00:00.000Z"
+    },
+    {
+      "id": "dddddddd-0000-4000-8000-000000000001",
+      "type": 1,
+      "name": "Router admin",
+      "login": {
+        "username": "admin",
+        "password": "ReUsed-Password-1",
+        "uris": [],
+        "totp": null
+      },
+      "revisionDate": "2025-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "dddddddd-0000-4000-8000-000000000002",
+      "type": 1,
+      "name": "router   ADMIN",
+      "login": {
+        "username": "admin",
+        "password": "ReUsed-Password-1",
+        "uris": [],
+        "totp": null
+      },
+      "revisionDate": "2025-02-01T00:00:00.000Z"
+    },
+    {
+      "id": "eeeeeeee-0000-4000-8000-000000000001",
+      "type": 1,
+      "name": "VPN",
+      "login": {
+        "username": "erik",
+        "password": "ReUsed-Password-1",
+        "uris": [
+          {
+            "uri": "https://vpn.example.com"
+          }
+        ],
+        "totp": null
+      },
+      "revisionDate": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "eeeeeeee-0000-4000-8000-000000000002",
+      "type": 1,
+      "name": "VPN (team)",
+      "login": {
+        "username": "erik",
+        "password": "ReUsed-Password-1",
+        "uris": [
+          {
+            "uri": "https://vpn.example.com"
+          }
+        ],
+        "totp": null
+      },
+      "revisionDate": "2026-03-01T00:00:00.000Z",
+      "organizationId": "org-1"
+    },
+    {
+      "id": "ffffffff-0000-4000-8000-000000000001",
+      "type": 1,
+      "name": "No password entry",
+      "login": {
+        "username": "erik",
+        "password": "",
+        "uris": [
+          {
+            "uri": "https://nopass.example.com"
+          }
+        ],
+        "totp": null
+      },
+      "revisionDate": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "99999999-0000-4000-8000-000000000001",
+      "type": 1,
+      "name": "Solo",
+      "login": {
+        "username": "erik",
+        "password": "UniqueOnly999",
+        "uris": [
+          {
+            "uri": "https://solo.example.com"
+          }
+        ],
+        "totp": null
+      },
+      "revisionDate": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "card-1",
+      "type": 3,
+      "name": "Visa",
+      "card": {
+        "number": "4111111111111111"
+      }
+    },
+    {
+      "id": "note-1",
+      "type": 2,
+      "name": "Secure note",
+      "secureNote": {
+        "type": 0
+      },
+      "notes": "secret note text"
+    },
+    {
+      "id": "7e7e7e7e-0000-4000-8000-000000000001",
+      "type": 1,
+      "name": "Amazon (trash)",
+      "login": {
+        "username": "erik@example.com",
+        "password": "ReUsed-Password-1",
+        "uris": [
+          {
+            "uri": "amazon.com"
+          }
+        ],
+        "totp": null
+      },
+      "revisionDate": "2026-01-01T00:00:00.000Z",
+      "deletedDate": "2026-01-02T00:00:00.000Z"
+    }
+  ]
+}

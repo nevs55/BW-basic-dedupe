@@ -27,5 +27,8 @@ node_modules/
 .env
 .env.*
 
-# The one file that is safe to commit: synthetic data only, no real credentials.
-!example-vault.json
+# The one exception: the test fixtures directory. Those files are synthetic and are
+# referenced by tests/run-tests.py, so they are re-allowed at the bottom, where the last
+# matching rule wins. Never add an export of a real vault here — see tests/fixtures/README.md.
+!tests/fixtures/*.json
+!tests/fixtures/*.txt

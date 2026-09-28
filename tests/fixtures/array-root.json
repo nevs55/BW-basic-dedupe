@@ -1,0 +1,1 @@
+[{"id": "arr-1", "type": 1, "name": "A", "login": {"username": "u", "password": "p", "uris": [{"uri": "https://arr.example.com"}]}, "revisionDate": "2026-01-01T00:00:00.000Z"}, {"id": "arr-2", "type": 1, "name": "B", "login": {"username": "U", "password": "p", "uris": [{"uri": "https://arr.example.com"}]}, "revisionDate": "2026-02-01T00:00:00.000Z"}]

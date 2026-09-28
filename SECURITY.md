@@ -17,7 +17,7 @@ Anything that could expose vault data or mislead someone into deleting the wrong
 - Any path by which the loaded file, or data derived from it, leaves the browser tab — a network request, a link, an embedded resource, anything reachable past the content security policy.
 - Passwords or other secrets rendered in the page, written to `localStorage`, `sessionStorage`, IndexedDB, or a cookie, or included in a downloaded file where they are not expected.
 - A crafted export that causes script execution in the page (the page builds HTML from entry names, usernames and URIs, and escapes them; a bypass is a vulnerability).
-- Grouping or keeper-ranking logic that marks the wrong entry for deletion — for example, failing to detect a passkey or an authenticator code that is present in the export.
+- Grouping or keeper-ranking logic that marks the wrong entry for deletion — for example, failing to detect a passkey or an authenticator code that is present in the export, deciding a group whose copies only share a parent domain, or ignoring saved fields and attachments that one copy holds and its twin does not.
 
 ## Out of scope
 
@@ -28,12 +28,16 @@ Anything that could expose vault data or mislead someone into deleting the wrong
 
 ## Verifying a download
 
-Each release lists the SHA-256 of the HTML file. Check it before use:
+Each release lists the SHA-256 of `BW-basic-dedupe.html` in its notes. Check it before use:
 
 ```sh
 # macOS / Linux
-shasum -a 256 vault-duplicate-review.html
+shasum -a 256 BW-basic-dedupe.html
 
 # Windows PowerShell
-Get-FileHash vault-duplicate-review.html -Algorithm SHA256
+Get-FileHash BW-basic-dedupe.html -Algorithm SHA256
 ```
+
+The file in this repository is the same file the releases carry; a hash that does not match either one means you are not holding this tool.
+
+`tests/run-tests.py` repeats the checks that back the claims on the front page — that no request leaves the tab, that the content security policy blocks each outbound channel, that a crafted export cannot execute script, and that the ranking never decides the groups it should leave to you.

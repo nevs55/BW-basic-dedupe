@@ -1,0 +1,116 @@
+{
+  "encrypted": false,
+  "folders": [],
+  "items": [
+    {
+      "id": "11111111-0000-4000-8000-000000000001",
+      "type": 1,
+      "name": "<img src=x onerror=\"window.__xss=1\">",
+      "login": {
+        "username": "user\"onmouseover=\"window.__xss=2",
+        "password": "p",
+        "uris": [
+          {
+            "uri": "https://evil.example.com"
+          }
+        ],
+        "totp": null
+      },
+      "revisionDate": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "11111111-0000-4000-8000-000000000002",
+      "type": 1,
+      "name": "\"><img src=x onerror=\"window.__xss=1\">",
+      "login": {
+        "username": "user\"onmouseover=\"window.__xss=2",
+        "password": "p",
+        "uris": [
+          {
+            "uri": "https://evil.example.com"
+          }
+        ],
+        "totp": null
+      },
+      "revisionDate": "2026-02-01T00:00:00.000Z"
+    },
+    {
+      "id": "id\" onmouseover=\"window.__xss=3",
+      "type": 1,
+      "name": "<script>window.__xss=4</script>",
+      "login": {
+        "username": "u",
+        "password": "p",
+        "uris": [
+          {
+            "uri": "https://evil.example.com"
+          }
+        ],
+        "totp": null
+      },
+      "revisionDate": "2026-03-01T00:00:00.000Z"
+    },
+    {
+      "id": "33333333-0000-4000-8000-000000000001",
+      "type": 1,
+      "name": "</textarea><img src=1 onerror=window.__xss=5>",
+      "login": {
+        "username": "@SUM(1+1)",
+        "password": "q",
+        "uris": [
+          {
+            "uri": "https://x.example.com"
+          }
+        ],
+        "totp": null
+      },
+      "revisionDate": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "33333333-0000-4000-8000-000000000002",
+      "type": 1,
+      "name": "=cmd|'/c calc'!A0",
+      "login": {
+        "username": "@SUM(1+1)",
+        "password": "q",
+        "uris": [
+          {
+            "uri": "https://x.example.com"
+          }
+        ],
+        "totp": null
+      },
+      "revisionDate": "2025-06-01T00:00:00.000Z"
+    },
+    {
+      "id": "clobber",
+      "type": 1,
+      "name": "<form id=clearBtn>",
+      "login": {
+        "username": "u",
+        "password": "q",
+        "uris": [
+          {
+            "uri": "https://clob.example.com"
+          }
+        ]
+      },
+      "revisionDate": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "clobber2",
+      "type": 1,
+      "name": "x",
+      "login": {
+        "username": "u",
+        "password": "q",
+        "uris": [
+          {
+            "uri": "https://clob.example.com"
+          }
+        ]
+      },
+      "revisionDate": "2026-01-02T00:00:00.000Z"
+    }
+  ]
+}
